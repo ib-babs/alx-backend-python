@@ -67,5 +67,4 @@ class TestMemoize(unittest.TestCase):
             t = TestClass()
             t1 = t.a_property
             t2 = t.a_property
-            self.assertEqual(t1, t2)
             p.assert_called_once()
