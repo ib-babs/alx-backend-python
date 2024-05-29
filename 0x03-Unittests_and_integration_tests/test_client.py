@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch, PropertyMock, MagicMock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
-from typing import Mapping
+from typing import Mapping, Sequence, Union
 from fixtures import TEST_PAYLOAD
 
 
@@ -68,7 +68,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.mock_get = cls.get_patcher.start()
 
     @staticmethod
-    def get_json_url(cls, url=None):
+    def get_json_url(cls, url=None) -> Union[Mapping, Sequence, str]:
         if url is None:
             return None
         if url == "https://api.github.com/orgs/google":
@@ -81,7 +81,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def tearDownClass(cls) -> None:
         cls.mock_get.stop()
 
-    def test_public_repos(self):
+    def test_public_repos(self) -> None:
         '''Test public_repos'''
         self.mock_get("https://api.github.com/orgs/google")
         self.mock_get(
@@ -91,7 +91,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.mock_get.assert_any_call(
             "https://api.github.com/orgs/google/repos")
 
-    def test_public_repos_with_license(self):
+    def test_public_repos_with_license(self) -> None:
         '''Test public_repos with license'''
         self.mock_get.method.get_json("https://api.github.com/orgs/google")
         self.mock_get.method.get_json(
